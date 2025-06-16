@@ -1,0 +1,14 @@
+{
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Spring Boot-HeliumApplication<helium>",
+      "request": "launch",
+      "cwd": "${workspaceFolder}",
+      "mainClass": "music.helium.HeliumApplication",
+      "projectName": "helium",
+      "args": "",
+      "envFile": "${workspaceFolder}/.env"
+    }
+  ]
+}

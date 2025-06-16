@@ -9,12 +9,12 @@ import { Login } from "./routes/auth/Login";
 import { Register } from "./routes/auth/Register";
 function App() {
   return (
-    <div className="flex flex-col min-h-screen bg-amber-800">
+    <div className="w-full flex flex-col min-h-screen bg-amber-800">
       <div className="flex bg-gray-900 w-full">
-        <header className=" bg-blue-600 p-10 h-screen overflow-auto ">
+        <header className=" w-auto p-4 bg-gray-900 h-screen overflow-auto ">
           <NavBar />
         </header>
-        <main className="w-[100%] bg-emerald-500 p-10 overflow-auto">
+        <main className="w-[100%]  overflow-auto">
           <Routes>
             <Route path="/" element={<Inicio />} />
             <Route path="/artistas" element={<Artistas />} />

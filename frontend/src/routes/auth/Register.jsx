@@ -1,6 +1,85 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export const Register = () => {
+  const [formData, setFormData] = useState({
+    full_name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const validate = () => {
+    const newErrors = {};
+
+    if (!formData.full_name.trim()) {
+      newErrors.full_name = "El nombre completo es requerido";
+    }
+
+    if (!formData.email) {
+      newErrors.email = "El correo electrónico es requerido";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Correo electrónico no válido";
+    }
+
+    if (!formData.password) {
+      newErrors.password = "La contraseña es requerida";
+    } else if (formData.password.length < 8) {
+      newErrors.password = "La contraseña debe tener al menos 8 caracteres";
+    }
+
+    if (formData.password !== formData.confirmPassword) {
+      newErrors.confirmPassword = "Las contraseñas no coinciden";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validate()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/api/auth/register",
+        {
+          full_name: formData.full_name,
+          email: formData.email,
+          password: formData.password,
+        }
+      );
+
+      console.log("Registro exitoso:", response.data);
+      navigate("/login");
+    } catch (error) {
+      console.error("Error en el registro:", error.response?.data);
+      setErrors({
+        ...errors,
+        apiError: error.response?.data?.message || "Error en el registro",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -20,24 +99,38 @@ export const Register = () => {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form className="space-y-6">
+          {errors.apiError && (
+            <div className="mb-4 p-3 bg-red-50 text-red-700 text-sm rounded-md">
+              {errors.apiError}
+            </div>
+          )}
+
+          <form className="space-y-6" onSubmit={handleSubmit}>
             {/* Nombre completo */}
             <div>
               <label
-                htmlFor="fullname"
+                htmlFor="full_name"
                 className="block text-sm font-medium text-gray-700"
               >
                 Nombre completo
               </label>
               <div className="mt-1">
                 <input
-                  id="fullname"
-                  name="fullname"
+                  id="full_name"
+                  name="full_name"
                   type="text"
-                  required
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm"
+                  value={formData.full_name}
+                  onChange={handleChange}
+                  className={`appearance-none block w-full px-3 py-2 border ${
+                    errors.full_name ? "border-red-300" : "border-gray-300"
+                  } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm`}
                   placeholder="Juan Pérez"
                 />
+                {errors.full_name && (
+                  <p className="mt-1 text-sm text-red-600">
+                    {errors.full_name}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -54,11 +147,16 @@ export const Register = () => {
                   id="email"
                   name="email"
                   type="email"
-                  autoComplete="email"
-                  required
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className={`appearance-none block w-full px-3 py-2 border ${
+                    errors.email ? "border-red-300" : "border-gray-300"
+                  } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm`}
                   placeholder="tu@email.com"
                 />
+                {errors.email && (
+                  <p className="mt-1 text-sm text-red-600">{errors.email}</p>
+                )}
               </div>
             </div>
 
@@ -75,11 +173,16 @@ export const Register = () => {
                   id="password"
                   name="password"
                   type="password"
-                  required
-                  minLength="8"
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className={`appearance-none block w-full px-3 py-2 border ${
+                    errors.password ? "border-red-300" : "border-gray-300"
+                  } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm`}
                   placeholder="Mínimo 8 caracteres"
                 />
+                {errors.password && (
+                  <p className="mt-1 text-sm text-red-600">{errors.password}</p>
+                )}
               </div>
               <p className="mt-1 text-xs text-gray-500">
                 Debe contener al menos 8 caracteres, incluyendo mayúsculas y
@@ -100,10 +203,20 @@ export const Register = () => {
                   id="confirmPassword"
                   name="confirmPassword"
                   type="password"
-                  required
-                  className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  className={`appearance-none block w-full px-3 py-2 border ${
+                    errors.confirmPassword
+                      ? "border-red-300"
+                      : "border-gray-300"
+                  } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm`}
                   placeholder="Repite tu contraseña"
                 />
+                {errors.confirmPassword && (
+                  <p className="mt-1 text-sm text-red-600">
+                    {errors.confirmPassword}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -132,9 +245,10 @@ export const Register = () => {
             <div>
               <button
                 type="submit"
-                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500"
+                disabled={isSubmitting}
+                className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-amber-600 hover:bg-amber-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Registrarse
+                {isSubmitting ? "Registrando..." : "Registrarse"}
               </button>
             </div>
           </form>
