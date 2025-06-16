@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "./auth/AuthContext";
-
+import { Music } from "./Services/Music";
 export const Inicio = ({ onClick }) => {
   const { user } = useAuth();
 
@@ -82,6 +82,28 @@ export const Inicio = ({ onClick }) => {
           <div className="flex flex-col gap-2 w-1/2 h-full"></div>
         </main>
       </div>
+      <section>
+        <h1 className="text-4xl">Mejores Canciones Semanales</h1>
+        <Music />
+      </section>
+      <section>
+        <h1>Lanzadas Recientemente</h1>
+      </section>
+      <section>
+        <h1>Cacniones en Tendencia</h1>
+      </section>
+      <section>
+        <h1>Artistas Populares</h1>
+      </section>
+      <section>
+        <h1>Video Music</h1>
+      </section>
+      <section>
+        <h1>Top Albums</h1>
+      </section>
+      <section>
+        <h1>Modo PlayList</h1>
+      </section>
     </>
   );
 };
