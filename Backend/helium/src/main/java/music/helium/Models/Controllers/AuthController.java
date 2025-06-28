@@ -16,6 +16,7 @@ import music.helium.Models.Dto.LoginRequest;
 import music.helium.Models.Dto.LoginResponse;
 import music.helium.Models.Dto.RegisterRequest;
 import music.helium.Models.Entity.User;
+import music.helium.Repository.UserRepository;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -24,6 +25,12 @@ public class AuthController {
 
     @Autowired
     private AuthService authService;
+
+    @Autowired
+    private AuthService userService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(@RequestBody RegisterRequest registerRequest) {
@@ -51,10 +58,17 @@ public class AuthController {
 
     @GetMapping("/me")
     public ResponseEntity<User> getCurrentUser(@RequestHeader("Authorization") String token) {
-        // Validar token y obtener usuario (simplificado)
+        // 1. Extraer el token
         String jwt = token.replace("Bearer ", "");
-        // Aquí iría la lógica para validar el token y obtener el usuario
-        // Por ahora devolvemos un usuario de ejemplo
-        return ResponseEntity.ok(new User());
+
+        // 2. Obtener usuario del token (implementa esto en AuthService)
+        User user = authService.getUserFromToken(jwt);
+
+        return ResponseEntity.ok(user);
+    }
+
+    private String extractUsernameFromToken(String jwt) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'extractUsernameFromToken'");
     }
 }

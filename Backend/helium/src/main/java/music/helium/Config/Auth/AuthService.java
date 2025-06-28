@@ -41,18 +41,28 @@ public class AuthService {
     }
 
     public LoginResponse authenticateUser(LoginRequest loginRequest) {
-        // Buscar usuario por email
         User user = userRepository.findByEmail(loginRequest.getEmail())
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        // Verificar contraseña
         if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
             throw new RuntimeException("Contraseña incorrecta");
         }
 
-        // Generar token JWT (simplificado - en producción usar JWT)
-        String token = "generated-jwt-token"; // Reemplazar con generación real de JWT
+        // En un caso real, aquí generarías un JWT con información del usuario
+        String mockToken = "mock-token-for-user-" + user.getId(); // Temporal
 
-        return new LoginResponse(token, user);
+        return new LoginResponse(mockToken, user);
     }
+
+    public User getUserFromToken(String jwt) {
+        // Implementación temporal para pruebas:
+        if (jwt.startsWith("mock-token-for-user-")) {
+            String userIdStr = jwt.replace("mock-token-for-user-", "");
+            Long userId = Long.parseLong(userIdStr);
+            return userRepository.findById(userId)
+                    .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        }
+        throw new RuntimeException("Token inválido");
+    }
+
 }

@@ -4,6 +4,7 @@ import axios from "axios";
 
 const AuthContext = createContext();
 
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("token"));
@@ -12,34 +13,42 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     if (token) {
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      // Opcional: Obtener datos del usuario si el token existe
       fetchUserData();
     } else {
       delete axios.defaults.headers.common["Authorization"];
+      // Opcional: si no hay token, asegúrate de que el usuario esté a null
+      if (user) setUser(null); 
     }
   }, [token]);
 
-  const fetchUserData = async () => {
-    try {
-      const response = await axios.get("http://localhost:8080/api/auth/me");
-      setUser(response.data);
-    } catch (error) {
-      console.error("Error fetching user data:", error);
-      logout();
-    }
-  };
+// Y en fetchUserData
+const fetchUserData = async () => {
+  try {
+    const response = await axios.get("http://localhost:8080/api/auth/me");
+    setUser(response.data); // Guarda el objeto completo
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    logout(); 
+  }
+};
 
-  const login = (newToken, userData) => {
-    localStorage.setItem("token", newToken);
-    setToken(newToken);
-    setUser(userData);
-  };
+
+const login = (newToken, userDataFromBackend) => {
+  localStorage.setItem("token", newToken);
+  setToken(newToken);
+  setUser({
+    id: userDataFromBackend.id,
+    username: userDataFromBackend.username,
+    email: userDataFromBackend.email,
+    fullName: userDataFromBackend.fullName
+  });
+};
 
   const logout = () => {
     localStorage.removeItem("token");
     setToken(null);
     setUser(null);
-    navigate("/login");
+    navigate("/");
   };
 
   return (
@@ -49,6 +58,9 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
+
+
 export const useAuth = () => {
   return useContext(AuthContext);
+                              
 };

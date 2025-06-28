@@ -48,19 +48,19 @@ export const Login = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/auth/login",
-        {
-          email: formData.email,
-          password: formData.password,
-        }
-      );
+     // Modifica el handleSubmit para asegurar la estructura correcta:
+const response = await axios.post("http://localhost:8080/api/auth/login", {
+  email: formData.email,
+  password: formData.password
+});
 
-      // Guardar token y datos de usuario
-      login(response.data.token, response.data.user);
+// Asegúrate que response.data tiene la estructura correcta
+login(response.data.token, response.data.user);
 
       // Redirigir a la página de inicio
       navigate("/");
+      console.log(response.data.user);
+      
     } catch (error) {
       console.error("Error en el login:", error.response?.data);
       setErrors({

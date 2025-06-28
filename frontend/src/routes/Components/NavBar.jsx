@@ -11,6 +11,7 @@ import {
 } from "react-icons/fa";
 
 export const NavBar = () => {
+  // eslint-disable-next-line no-unused-vars
   const NavItem = ({ to, icon: Icon, children }) => {
     return (
       <NavLink
@@ -34,12 +35,12 @@ export const NavBar = () => {
   };
 
   return (
-    <nav className=" flex flex-col  gap-4 border-r-2 border-pink-600 shadow-xs  shadow-pink-600 p-2">
+    <nav className=" flex flex-col  gap-4 border-r-2 border-purple-950 shadow-xs  shadow-purple-900 p-2">
       <Link
         to="/"
-        className="text-2xl font-bold  text-pink-600 bg-clip-text bg-gradient-to-r from-pink-400 to-purple-60"
+        className="text-2xl font-bold  text-indigo-800 bg-clip-text bg-gradient-to-r from-pink-400 to-purple-60"
       >
-        HeliumMusic
+        MusicApp
       </Link>
       <h2 className="text-[12px] font-bold  text-pink-600 text-left">Menu</h2>
       <NavItem to="/" icon={FaHome}>

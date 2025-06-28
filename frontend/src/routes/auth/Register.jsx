@@ -4,7 +4,7 @@ import axios from "axios";
 
 export const Register = () => {
   const [formData, setFormData] = useState({
-    full_name: "",
+    fullName: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -24,8 +24,8 @@ export const Register = () => {
   const validate = () => {
     const newErrors = {};
 
-    if (!formData.full_name.trim()) {
-      newErrors.full_name = "El nombre completo es requerido";
+    if (!formData.fullName.trim()) {
+      newErrors.fullName = "El nombre completo es requerido";
     }
 
     if (!formData.email) {
@@ -61,7 +61,7 @@ export const Register = () => {
       const response = await axios.post(
         "http://localhost:8080/api/auth/register",
         {
-          full_name: formData.full_name,
+          fullName: formData.fullName,
           email: formData.email,
           password: formData.password,
         }
@@ -109,26 +109,26 @@ export const Register = () => {
             {/* Nombre completo */}
             <div>
               <label
-                htmlFor="full_name"
+                htmlFor="fullName"
                 className="block text-sm font-medium text-gray-700"
               >
                 Nombre completo
               </label>
               <div className="mt-1">
                 <input
-                  id="full_name"
-                  name="full_name"
+                  id="fullName"
+                  name="fullName"
                   type="text"
-                  value={formData.full_name}
+                  value={formData.fullName}
                   onChange={handleChange}
                   className={`appearance-none block w-full px-3 py-2 border ${
-                    errors.full_name ? "border-red-300" : "border-gray-300"
+                    errors.fullName ? "border-red-300" : "border-gray-300"
                   } rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-amber-500 focus:border-amber-500 sm:text-sm`}
                   placeholder="Juan Pérez"
                 />
-                {errors.full_name && (
+                {errors.fullName && (
                   <p className="mt-1 text-sm text-red-600">
-                    {errors.full_name}
+                    {errors.fullName}
                   </p>
                 )}
               </div>
