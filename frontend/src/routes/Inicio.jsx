@@ -36,13 +36,11 @@ export const Inicio = () => {
         </main>
       </div>
       <section>
-        <h1 className="text-3xl text-gray-50 font-serif text-center">Explorar Music 🎧</h1>
-        <Search />
-        <Music />
+       
       </section>
  
       <section>
-        <h1>Modo PlayList</h1>
+        <h1 className="text-3xl text-gray-50 font-serif text-center">Modo PlayList</h1>
         <MusicLanzadas />
       </section>
     </>

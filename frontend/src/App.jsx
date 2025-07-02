@@ -27,11 +27,11 @@ function App() {
     <>
       <div className="w-full flex bg-slate-900">
         <div className=" bg-gray-900  flex  min-h-screen bg-amber-800">
-          <header className=" w-3xs bg-gray-900 h-screen overflow-auto  p-4">
+          <header className="fixed w-[20%] bg-gray-900 h-screen overflow-auto  p-4">
             <NavBar />
           </header>
         </div>
-        <div className="flex flex-col gap-2  p-3  w-full h-28">
+        <div className="flex flex-col gap-2  p-3  w-[80%] h-28 ml-[20%]">
           <div className="flex flex-row justify-between  gap-3 w-full h-full  p-4 bg-slate-950 rounded-2xl">
             <header className="flex gap-3 w-full h-auto text-gray-50 justify-between items-center">
               <div className="flex gap-2 justify-center items-center">
