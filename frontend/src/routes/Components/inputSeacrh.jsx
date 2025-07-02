@@ -10,7 +10,7 @@ export const SearchInput = ({ onSearch, initialValue = '' }) => {
       alert('Ingrese un término de búsqueda');
       return;
     }
-    onSearch(searchTerm); // Call the prop function with the search term
+    onSearch(searchTerm); // 
   };
 
   return (

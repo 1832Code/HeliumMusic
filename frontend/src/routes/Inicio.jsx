@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Music } from "./Services/Music";
 import { Search } from "./Components/search";
+import { MusicLanzadas } from "./Components/MusicLanzadas";
 export const Inicio = () => {
   
 
@@ -35,27 +36,14 @@ export const Inicio = () => {
         </main>
       </div>
       <section>
-        <h1 className="text-4xl">Explorar Music 🎧</h1>
+        <h1 className="text-3xl text-gray-50 font-serif text-center">Explorar Music 🎧</h1>
         <Search />
         <Music />
       </section>
-      <section>
-        <h1>Lanzadas Recientemente</h1>
-      </section>
-      <section>
-        <h1>Cacniones en Tendencia</h1>
-      </section>
-      <section>
-        <h1>Artistas Populares</h1>
-      </section>
-      <section>
-        <h1>Video Music</h1>
-      </section>
-      <section>
-        <h1>Top Albums</h1>
-      </section>
+ 
       <section>
         <h1>Modo PlayList</h1>
+        <MusicLanzadas />
       </section>
     </>
   );

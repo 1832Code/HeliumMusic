@@ -9,7 +9,7 @@ export const Avatar = () => {
     const { logout, token, user } = useAuth();
   
     if (!token) {
-      return <a href="/login">Iniciar sesión</a>;  // Cambié "/" por "/login" para claridad
+      return <a href="/login">Iniciar sesión</a>;  
     }
   
     return (
@@ -24,7 +24,6 @@ export const Avatar = () => {
           <FiChevronDown className={`transition-transform ${isOpen ? 'rotate-180' : ''}`} />
         </div>
   
-        {/* Menú desplegable */}
         {isOpen && (
           <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
                 <div className="px-4 py-2">
